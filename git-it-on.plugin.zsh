@@ -209,6 +209,16 @@ gitlab_open_branches() {
   __open "$url/branches"
 }
 
+gitlab_open_pipelines() {
+  git_set_repo
+  __open "$url/pipelines"
+}
+
+gitlab_open_jobs() {
+  git_set_repo
+  __open "$url/-/jobs"
+}
+
 gitlab_open_network() {
 	git_set_repo
 	local branch="$(git rev-parse --abbrev-ref HEAD)"
@@ -268,14 +278,16 @@ gitit() {
   elif [ $gitit_command = "repo" ]; then git_open_repo $2 $3
 
   # gitlab commands
-  elif [ $gitit_command = "glcompare" ]  || [ $gitit_command = "glcm" ]; then gitlab_open_compare $@
-  elif [ $gitit_command = "glcommits" ]  || [ $gitit_command = "glco" ]; then git_open_commits $2
-  elif [ $gitit_command = "glhistory" ]  || [ $gitit_command = "glh" ]; then git_open_history $2 $3
-  elif [ $gitit_command = "glbranches" ] || [ $gitit_command = "glb" ]; then gitlab_open_branches
-  elif [ $gitit_command = "glmerges" ]   || [ $gitit_command = "glm" ]; then gitlab_open_merges $@
-  elif [ $gitit_command = "glissues" ]   || [ $gitit_command = "gli" ]; then git_open_issues $@
-  elif [ $gitit_command = "glctrlp" ]    || [ $gitit_command = "glcr" ]; then gitlab_ctrlp $2
-  elif [ $gitit_command = "glnetwork" ]  || [ $gitit_command = "gln" ]; then gitlab_open_network
+  elif [ $gitit_command = "glcompare" ]   || [ $gitit_command = "glcm" ]; then gitlab_open_compare $@
+  elif [ $gitit_command = "glcommits" ]   || [ $gitit_command = "glco" ]; then git_open_commits $2
+  elif [ $gitit_command = "glhistory" ]   || [ $gitit_command = "glh" ]; then git_open_history $2 $3
+  elif [ $gitit_command = "glbranches" ]  || [ $gitit_command = "glb" ]; then gitlab_open_branches
+  elif [ $gitit_command = "glmerges" ]    || [ $gitit_command = "glm" ]; then gitlab_open_merges $@
+  elif [ $gitit_command = "glissues" ]    || [ $gitit_command = "gli" ]; then git_open_issues $@
+  elif [ $gitit_command = "glpipelines" ] || [ $gitit_command = "glp" ]; then gitlab_open_pipelines $@
+  elif [ $gitit_command = "gljobs" ]      ||  [ $gitit_command = "glj" ]; then gitlab_open_jobs $@
+  elif [ $gitit_command = "glctrlp" ]     || [ $gitit_command = "glcr" ]; then gitlab_ctrlp $2
+  elif [ $gitit_command = "glnetwork" ]   || [ $gitit_command = "gln" ]; then gitlab_open_network
 
   elif [ $gitit_command = "help" ]; then git_help
   else git_open_file $1 $2
